@@ -76,6 +76,21 @@ require("supermaven-nvim").setup({
 
 This will disable supermaven-nvim for files with the name `foo.sh` in it, e.g. `myscriptfoo.sh`.
 
+
+To disable inline completion temporarily, you can pass a function to `disable_inline_completion` that returns `true` when you want to disable inline completion. 
+For example:
+
+```lua
+require("supermaven-nvim").setup({
+  disable_inline_completion = function()
+    return require("cmp").visible()
+  end
+})
+```
+
+This will disable inline completion when the completion menu of nvim-cmp is visible.
+
+
 ### Using with nvim-cmp
 
 If you are using nvim-cmp, you can use the `supermaven` source (which is registered by default) by adding the following to your `cmp.setup()` function:

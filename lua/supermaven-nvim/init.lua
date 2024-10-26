@@ -9,9 +9,9 @@ local M = {}
 M.setup = function(args)
   config.setup(args)
 
-  if config.disable_inline_completion then
-    completion_preview.disable_inline_completion = true
-  elseif not config.disable_keymaps then
+  completion_preview.disable_inline_completion = config.disable_inline_completion
+
+  if config.disable_inline_completion ~= true and not config.disable_keymaps then
     if config.keymaps.accept_suggestion ~= nil then
       local accept_suggestion_key = config.keymaps.accept_suggestion
       vim.keymap.set(
@@ -45,7 +45,7 @@ M.setup = function(args)
     local cmp_source = require("supermaven-nvim.cmp")
     cmp.register_source("supermaven", cmp_source.new())
   else
-    if config.disable_inline_completion then
+    if config.disable_inline_completion == true then
       log:warn(
         "nvim-cmp is not available, but inline completion is disabled. Supermaven nvim-cmp source will not be registered."
       )

@@ -57,8 +57,13 @@ function CompletionPreview:render_with_inlay(
   self.inlay_instance = new_instance
 end
 
+function CompletionPreview:is_inline_completion_disabled()
+  local disable_inline = self.disable_inline_completion or false
+  return disable_inline == true or (type(disable_inline) == "function" and disable_inline())
+end
+
 function CompletionPreview:render_floating(first_line, opts, buf, line_before_cursor)
-  if self.disable_inline_completion then
+  if self:is_inline_completion_disabled() then
     return
   end
 
@@ -72,7 +77,7 @@ function CompletionPreview:render_floating(first_line, opts, buf, line_before_cu
 end
 
 function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
-  if self.disable_inline_completion then
+  if self:is_inline_completion_disabled() then
     return
   end
 
